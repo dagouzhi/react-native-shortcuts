@@ -3,7 +3,6 @@ export interface PinnedShortcutConfig {
     icon: string;
     label: string;
     link: string;
-    description: string;
 }
 declare class ShortcutsClass {
     AddPinnedShortcut(data: PinnedShortcutConfig): Promise<boolean>;

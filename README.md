@@ -17,6 +17,5 @@ shortcuts.AddPinnedShortcut({
   icon: 'https://dummyimage.com/114x114/02adea&text=icon',
   label: '测试',
   link: 'hongtangyun://platformapi/startapp?appId=test',
-  description: '测试桌面快捷方式‘,
 })
 ```
