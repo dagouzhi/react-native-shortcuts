@@ -1,7 +1,7 @@
 {
   "name": "@hongtangyun/react-native-shortcuts",
   "title": "React Native Shortcuts",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "TODO",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

@@ -7,7 +7,6 @@ export interface PinnedShortcutConfig {
   icon: string;
   label: string;
   link: string;
-  description: string;
 }
 
 class ShortcutsClass {
@@ -17,14 +16,13 @@ class ShortcutsClass {
       icon: data.icon,
       label: data.label,
       link: data.link,
-      description: data.description,
     };
     return new Promise((resolve, reject) => {
       try {
         const os = Platform.OS;
         if (os === 'android') {
           Shortcuts.AddPinnedShortcut(query, (status: boolean) => {
-            resolve(!!status);
+            resolve(status);
           })
         }
         if (os === 'ios') {

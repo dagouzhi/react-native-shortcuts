@@ -41,7 +41,7 @@ public class ShortcutsModule extends ReactContextBaseJavaModule {
         // TODO: Implement some actually useful functionality
         callback.invoke("Received numberArgument: " + numberArgument + " stringArgument: " + stringArgument);
     }
-    
+
     @ReactMethod
     public static Bitmap getBitmapFromURL(String src) {
         try {
@@ -64,32 +64,34 @@ public class ShortcutsModule extends ReactContextBaseJavaModule {
             return null;
         }
     }
-    
+
     @ReactMethod
     @TargetApi(25)
     private void AddPinnedShortcut(ReadableMap shortcut, final Callback onDone) {
         try {
             if (ShortcutManagerCompat.isRequestPinShortcutSupported(reactContext)) {
+                String id = shortcut.getString("id");
                 String label = shortcut.getString("label");
-                String description = shortcut.getString("description");
                 String icon = shortcut.getString("icon");
-                ReadableMap link = shortcut.getMap("link");
-                ShortcutInfoCompat shortcut_ = new ShortcutInfoCompat.Builder(reactContext, link.getString("url"))
+                String link = shortcut.getString("link");
+                ShortcutInfoCompat shortcut_ = new ShortcutInfoCompat.Builder(reactContext, link)
                         .setShortLabel(label)
-                        .setShortLabel(description)
                         .setIcon(IconCompat.createWithBitmap(getBitmapFromURL(icon)))
                         .setIntent(new Intent(Intent.ACTION_VIEW,
-                                Uri.parse(link.getString("url"))))
+                                Uri.parse(link)))
                         .build();
                 Intent pinnedShortcutCallbackIntent = ShortcutManagerCompat.createShortcutResultIntent(reactContext, shortcut_);
                 PendingIntent successCallback = PendingIntent.getBroadcast(reactContext, /* request code */ 0,
                         pinnedShortcutCallbackIntent, /* flags */ 0);
                 ShortcutManagerCompat.requestPinShortcut(reactContext, shortcut_, successCallback.getIntentSender());
+                onDone.invoke(true, "成功");
+            } else {
+                onDone.invoke(false, "不支持");
             }
         } catch (Exception e) {
             Log.d("AddPinnedShortcut", e.toString());
+            onDone.invoke(false, e.toString());
         } finally {
-            onDone.invoke();
         }
     }
 }
